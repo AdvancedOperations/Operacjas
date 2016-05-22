@@ -5,7 +5,7 @@
 
 ## Usage
 
-> *WARNING*: **Operations** are un-swifty as hell, with all these subclassing and reference semantics everywhere. But the goal of **Operations** wasn't to make `NSOperation` "swifty", but to make it more powerful *using* Swift. Operations are still a very great concept that can dramatically simplify the structure of your app, they are system-aware and they *just work*. So use them, why not ¯\_(ツ)_/¯
+> *WARNING*: **Operations** are un-swifty as hell, with all these subclassing and reference semantics everywhere. But the goal of **Operations** is not to make `NSOperation` "swifty", but to make it more powerful *using* Swift. Operations are still a very great concept that can dramatically simplify the structure of your app, they are system-aware and they *just work*. So use them, why not ¯\_(ツ)_/¯
 
 Before reading the **Usage** section, please go watch [Advanced NSOperations](https://developer.apple.com/videos/play/wwdc2015/226/) talk from Apple, it will help you to understand what's going on, especially if you're new to `NSOperation` and `NSOperationQueue`.
 
