@@ -121,4 +121,4 @@ myOperation.observe {
 ```
 That creates a new observer and automatically assigns it to `myOperation`.
 
-Instead of using `didSuccess` and `didFail`, you can also use `didFinishWithErrors`, which is gonna be notified when operation finishes, no matter successfuly or not. Also keep in mind that if you specify `didFinishWithErrors`, `didSuccess` and `didFail` will be ignored. In most cases, `didSuccess` and `didFail` are the best option.
+Instead of using `didSuccess` and `didFail`, you can also use `didFinishWithErrors`, which is gonna be notified when operation finishes, no matter successfuly or not. Also keep in mind that if you specify `didFinishWithErrors`, `didSuccess` and `didFail` will be ignored. In most cases, using `didSuccess` and `didFail` is the best option.
