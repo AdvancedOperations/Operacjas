@@ -105,7 +105,7 @@ It's a good practice to implement `OperationObserver` directly if you want your 
 ```swift
 let myOperation = MyOperation()
 myOperation.observe {
-    $0.didStart { in
+    $0.didStart {
         // operation did start
     }
     $0.didProduceAnotherOperation { operation in
