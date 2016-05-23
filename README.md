@@ -134,14 +134,15 @@ That creates a new observer and automatically assigns it to `myOperation`.
 Instead of using `didSuccess` and `didFail`, you can also use `didFinishWithErrors`, which is gonna be notified when operation finishes, no matter successfuly or not. Also keep in mind that if you specify `didFinishWithErrors`, `didSuccess` and `didFail` will be ignored. In most cases, using `didSuccess` and `didFail` is the best option.
 
 ##### Operation conditions
-You can solve pretty complex problems with `NSOperation`s and dependencies, but `OperationCondition` takes that even further, allowing you to create very sophisticated workflows. You can create and assign any number of conditions to an `Operation` object. Conditions ensure you that some operation will be executed *only* if condition was satisfied. Take these situation as examples:
-> - Download file only if server is reachable
-> - Perform request only if user is logged in
-> - Try to get user's location only if permission to do so is granted
+You can solve pretty complex problems with `NSOperation`s and dependencies, but `OperationCondition` takes that even further, allowing you to create very sophisticated workflows. You can create and assign any number of conditions to an `Operation` object. Conditions ensure you that some operation will be executed *only* if condition was satisfied. Take these situations as examples:
 
-Basically, your condition can do two things. First, it can *generate dependency* for operation. 
+ - Download file only if server is reachable
+ - Perform request only if user is logged in
+ - Try to get user's location only if permission to do so is granted
 
-For example, some `LoggedInCondition` can generate `LoginOperation` which will present a login view if the user is not logged in. After `LoginOperation` is completed (i.e. user logs in or cancel), you can evaluate a condition to actually check if user is logged in, and pass that result to determine whether your initial operation needs to be executed. Let's look at some code:
+Basically, your condition can do two things. First, it can *generate dependency* for operation. Second, it can *evalute condition*, meaning it can check if the condition is satisfied or not.
+
+For example, some `LoggedInCondition` can generate `LoginOperation` which will present a login view if the user is not logged in. After `LoginOperation` is completed (i.e. user logs in or cancel), you can evaluate a condition to actually check if the user is logged in, and pass that result to determine whether your initial operation needs to be executed. Let's look at some code:
 
 ```swift
 struct LoggedInCondition: OperationCondition {
@@ -185,8 +186,8 @@ requestOperation.addCondition(loggedIn)
 
 One important note here: `evaluateForOperation(_:completion:)` gets called *after* the generated operation is executed. Actually, operation returned from here is going to be added as a dependency for initial operation and assigned to an operation queue *before* initial operation, and initial operation is evaluating conditions only after all it's dependencies are executed.
 
-For example, let's take next situation. We have operation **A** to which we assign to condition - **Bc** and **Cc**. These conditions generate one operation each - **Bo** and **Co**. So the workflow is going to look like this:
-> **Bo** execution -> **Co** execution -> **A** evaluate it's conditions (**Bc** and **Cc**) -> **A** execution
+For example, let's take next situation. We have operation **A** to which we assign two conditions - **Bc** and **Cc**. These conditions generate one operation each - **Bo** and **Co**. So the workflow is going to look like this:
+> **Bo** execution -> **Co** execution -> **A** evaluates it's conditions (**Bc** and **Cc**) -> **A** execution
 
 Of course, there are situations when you don't need to generate dependencies. In this cases you can just return `nil` in `dependencyForOperation(_:)`. For example, this is how Apple's `PassbookCondition` looks:
 
@@ -228,11 +229,11 @@ Think of it that way. You generate dependency in sutiations where you *can* infl
 
 So, for example:
 
-1. **Download file only if server is reachable** - no dependency generated, because if network is not reachable, there is nothing we can possibly do.
-2. **Perform request only if user is logged in** - generate some "log in operation", which will try to log in user if he's not already.
-3. **Try to get user's location only if permission to do so is granted** - generate some "location permission operation" which will ask user's permission for location if it's not already granted.
+1. **Download file only if server is reachable** - no dependency generated, because if network is not reachable, there is possibly nothing we can do.
+2. **Perform request only if the user is logged in** - generate some "log in operation", which will try to log in user if he's not already.
+3. **Try to get the user's location only if permission to do so is granted** - generate some "location permission operation" which will ask user's permission for location if it's not already granted.
 
-Operation conditions is very powerful concept which extends a definition for "readiness" and allows you to seamlessly create complex and sophisticated workflows.
+*Operation condition* is very powerful concept which extends a definition for "readiness" and allows you to seamlessly create complex and sophisticated workflows.
 
 ##### Mutual exclusivity
 There are situations when you want to make sure that some kind of operations are not executed *simultaneously*. For example, we don't want two `LoadCoreDataStackOperation` running together, or we don't want one alert to be presented if there are some other alert that is currently presenting. Actually, the solution for this is very simple - if you don't want two operations to be executed simultaneously, you just make one *depended* on another. **Operations** does it for you automatically. All you need to do is assign an `OperationCondition` with `isMutuallyExclusive` set to `true` to your operation, and if there are some other operations which has the "mutually exclusive" condition of the same type, they won't be executed simultaneously, you can be sure.
