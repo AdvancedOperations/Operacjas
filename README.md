@@ -265,6 +265,12 @@ basicAlert.addCondition(alertMutExcl)
 queue.addOperations([networkAlert, basicAlert])
 ```
 
+#### What's out of the box?
+**Operations** have some pretty useful stuff right out of the box:
+
+1. Silent condition (`SilentCondition<T>`) that causes another condition to not enqueue its dependency. If we take our `LoggedInCondition` example, making `SilentCondition<LoggedInCondition>` will only check if the user is already logged in, and if he's not, it will **not** enqueue `LoginOperation`.
+2. No cancelled dependencies condition (`NoCancelledDependencies`) specifies that every operation dependency must have succeeded without cancelling. If any dependency was cancelled, the target operation will be cancelled. Be careful, this will apply only to **cancelled** dependencies, not to the failed ones.
+
 ### Tips and tricks
 - If your operation is failed, simply call `finishWithError(error: ErrorType?)` method instead of just `finish()` (you can also call `finish(errors: [ErrorType])`), that will be indicate that even though your operation have entered the `finished` state, it failed to do it's job.
 - Of course, you can add dependencies, conditions and observers at initialization.
