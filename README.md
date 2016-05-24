@@ -275,6 +275,13 @@ queue.addOperations([networkAlert, basicAlert])
 - If your operation is failed, simply call `finishWithError(error: ErrorType?)` method instead of just `finish()` (you can also call `finish(errors: [ErrorType])`), that will be indicate that even though your operation have entered the `finished` state, it failed to do it's job.
 - Of course, you can add dependencies, conditions and observers at initialization.
 
+## Installation
+**Operations** is available through [Carthage][carthage-url]. To install, just write into your Cartfile:
+
+```ruby
+github "AdvancedOperations/Operations" ~> 0.2.0
+```
+
 ## Contributing
 **Operations** is in early stage of development and is opened for any ideas. If you want to contribute, you can:
 
@@ -298,3 +305,4 @@ One more: if you get a merget PR, regardless of content (typos, code, doc fixes)
 [platform-url]: https://developer.apple.com/swift/
 [anso-url]: https://developer.apple.com/videos/play/wwdc2015/226/
 [mvcn-url]: https://realm.io/news/slug-marcus-zarra-exploring-mvcn-swift/
+[carthage-url]: https://github.com/Carthage/Carthage
