@@ -297,6 +297,9 @@ One more: if you get a merget PR, regardless of content (typos, code, doc fixes)
 - [Advanced NSOperations][anso-url] talk from WWDC 2015
 - [MVC-N: Isolating network calls from View Controllers][mvcn-url] with Marcus Zarra 
 
+## License
+See [#11](https://github.com/AdvancedOperations/Operations/issues/11)
+
 [travis-badge]: https://travis-ci.org/AdvancedOperations/Operations.svg?branch=master
 [travis-url]: https://travis-ci.org/AdvancedOperations/Operations
 [swift-badge]: https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat
