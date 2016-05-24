@@ -4,7 +4,7 @@
 [![Build Status][travis-badge]][travis-url]
 [![Platform][platform-badge]][platform-url]
 
-**Operations** is an open-source implementation of concepts from [Advanced NSOperations](https://developer.apple.com/videos/play/wwdc2015/226/) talk.
+**Operations** is an open-source implementation of concepts from [Advanced NSOperations][anso-url] talk.
 
 > The `NSOperation` class is an abstract class you use to encapsulate the code and data associated with a single task.
 
@@ -286,9 +286,15 @@ Actually, any help is welcomed! Feel free to contact us, ask questions and propo
 
 One more: if you get a merget PR, regardless of content (typos, code, doc fixes), you will be invited to **AdvancedOperations** organizaton, because we want to make strong and vivid community of Operations-oriented programmers! ✊
 
+## We recommend
+- [Advanced NSOperations][anso-url] talk from WWDC 2015
+- [MVC-N: Isolating network calls from View Controllers][mvcn-url] with Marcus Zarra 
+
 [travis-badge]: https://travis-ci.org/AdvancedOperations/Operations.svg?branch=master
 [travis-url]: https://travis-ci.org/AdvancedOperations/Operations
 [swift-badge]: https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat
 [swift-url]: https://swift.org
 [platform-badge]: https://img.shields.io/badge/Platform-OS%20X-lightgray.svg?style=flat
 [platform-url]: https://developer.apple.com/swift/
+[anso-url]: https://developer.apple.com/videos/play/wwdc2015/226/
+[mvcn-url]: https://realm.io/news/slug-marcus-zarra-exploring-mvcn-swift/
