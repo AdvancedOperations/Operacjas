@@ -82,6 +82,7 @@ That means that `second` operation will not start before `first` operation enter
 You can observe operation lifecycle by assigning one or more *observers* to it. *Observer* is an implementor of `OperationObserver` protocol:
 
 ```swift
+// Example observer
 final class LogObserver: OperationObserver {
     
     func operationDidStart(operation: Operation) {
@@ -146,7 +147,7 @@ For example, some `LoggedInCondition` can generate `LoginOperation` which will p
 
 ```swift
 struct LoggedInCondition: OperationCondition {
-    static var name: String = "LoggedInCondition"
+
     // we'll talk about that later
     static var isMutuallyExclusive: Bool = false
     
@@ -225,7 +226,7 @@ struct PassbookCondition: OperationCondition {
 }
 ```
 
-Think of it that way. You generate dependency in sutiations where you *can* influence the result of condition evaluation. `LoginCondition` is a good example. You generate `LoginOperation` which checks whether the user is logged in - if he is, it just happily finishes, if he's not, it presents some kind of "login view" to try to satisfy the condition. After the operation is finished, `evaluateForOperation(_:completion:)` comes in and checks if the condition was actually satisfied or not. Once again - if condition is not satisfied, the initial operation will not be even executed, so it will transit to "finished with errors" state.
+Think of it this way: you generate dependency in sutiations where you *can* influence the result of condition evaluation. `LoginCondition` is a good example. You generate `LoginOperation` which checks whether the user is logged in - if he is, it just happily finishes, if he's not, it presents some kind of "login view" to try to satisfy the condition. After the operation is finished, `evaluateForOperation(_:completion:)` comes in and checks if the condition was actually satisfied or not. Once again - if condition is not satisfied, the initial operation will not be even executed, so it will transit to "finished with errors" state.
 
 So, for example:
 
@@ -238,7 +239,7 @@ So, for example:
 ##### Mutual exclusivity
 There are situations when you want to make sure that some kind of operations are not executed *simultaneously*. For example, we don't want two `LoadCoreDataStackOperation` running together, or we don't want one alert to be presented if there are some other alert that is currently presenting. Actually, the solution for this is very simple - if you don't want two operations to be executed simultaneously, you just make one *depended* on another. **Operations** does it for you automatically. All you need to do is assign an `OperationCondition` with `isMutuallyExclusive` set to `true` to your operation, and if there are some other operations which has the "mutually exclusive" condition of the same type, they won't be executed simultaneously, you can be sure.
 
-The easiest way to do so is to assign `MutuallyExclusive<T>` condition to your operation, which is provided by **Operations**:
+The easiest way to do so is to assign `MutuallyExclusive<T>` condition, which is provided by **Operations**, to your operation:
 
 ```swift
 let loadModel = LoadModelOperation()
@@ -268,7 +269,7 @@ queue.addOperations([networkAlert, basicAlert])
 #### What's out of the box?
 **Operations** have some pretty useful stuff right out of the box:
 
-1. Silent condition (`SilentCondition<T>`) that causes another condition to not enqueue its dependency. If we take our `LoggedInCondition` example, making `SilentCondition<LoggedInCondition>` will only check if the user is already logged in, and if he's not, it will **not** enqueue `LoginOperation`.
+1. Silent condition (`SilentCondition<T>`) that causes another condition to not enqueue its dependency. If we take our `LoggedInCondition` example, making `SilentCondition<LoggedInCondition>` will only check if the user is already logged in, and if he's not, it will **not** generate `LoginOperation`.
 2. No cancelled dependencies condition (`NoCancelledDependencies`) specifies that every operation dependency must have succeeded without cancelling. If any dependency was cancelled, the target operation will be cancelled. Be careful, this will apply only to **cancelled** dependencies, not to the failed ones.
 
 ### Tips and tricks
