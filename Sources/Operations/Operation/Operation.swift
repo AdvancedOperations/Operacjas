@@ -155,13 +155,7 @@ public class Operation: NSOperation {
             return false
         }
     }
-    
-    public var vital: Bool = false {
-        willSet {
-            assert(state < .Pending, "Cannot modify vital after operation has enqueued")
-        }
-    }
-    
+        
     public var userInitiated: Bool {
         get {
             return qualityOfService == .UserInitiated
