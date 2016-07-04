@@ -39,6 +39,7 @@ public class OperationQueue: NSOperationQueue {
     public weak var delegate: OperationQueueDelegate?
     
     public override func addOperation(operation: NSOperation) {
+        dependOnVitals(operation)
         if let operation = operation as? Operation {
             
             // Set up an observer to invoke the `OperationQueueDelegate` method.
@@ -123,4 +124,34 @@ public class OperationQueue: NSOperationQueue {
             }
         }
     }
+    
+    public func addOperation(operation: NSOperation, vital: Bool) {
+        addDependency(operation)
+        addOperation(operation)
+    }
+    
+    private let vitalAccessQueue = dispatch_queue_create("com.AdvancedOperations.VitalOperationsAccessQueue", DISPATCH_QUEUE_SERIAL)
+    private var vitalOperations: [NSOperation] = []
+    
+    private func dependOnVitals(operation: NSOperation) {
+        dispatch_sync(vitalAccessQueue) { 
+            for vital in self.vitalOperations where vital !== operation {
+                operation.addDependency(vital)
+            }
+        }
+    }
+    
+    public func addDependency(operation: NSOperation) {
+        dispatch_sync(vitalAccessQueue) {
+            self.vitalOperations.append(operation)
+        }
+        operation.addCompletionBlock {
+            dispatch_sync(self.vitalAccessQueue) {
+                if let index = self.vitalOperations.indexOf(operation) {
+                    self.vitalOperations.removeAtIndex(index)
+                }
+            }
+        }
+    }
+    
 }

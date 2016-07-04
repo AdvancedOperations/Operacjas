@@ -155,7 +155,7 @@ public class Operation: NSOperation {
             return false
         }
     }
-    
+        
     public var userInitiated: Bool {
         get {
             return qualityOfService == .UserInitiated
