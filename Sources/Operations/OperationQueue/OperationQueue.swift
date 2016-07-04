@@ -126,8 +126,8 @@ public class OperationQueue: NSOperationQueue {
     }
     
     public func addOperation(operation: NSOperation, vital: Bool) {
-        addOperation(operation)
         addDependency(operation)
+        addOperation(operation)
     }
     
     private let vitalAccessQueue = dispatch_queue_create("com.AdvancedOperations.VitalOperationsAccessQueue", DISPATCH_QUEUE_SERIAL)
