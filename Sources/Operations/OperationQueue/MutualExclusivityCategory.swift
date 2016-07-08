@@ -17,7 +17,7 @@ public protocol MutualExclusivityCategory {
 extension MutualExclusivityCategory where Self: RawRepresentable, Self.RawValue == String {
     
     public var identifier: String {
-        return rawValue
+        return "\(Self.self):\(rawValue)"
     }
     
 }

@@ -66,6 +66,7 @@ class OperationsTests: XCTestCase {
     func testMutually() {
         enum Category: String, MutualExclusivityCategory {
             case A
+            case B
         }
         
         let operationA = BlockOperation {
