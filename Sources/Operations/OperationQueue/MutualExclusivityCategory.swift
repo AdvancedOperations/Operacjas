@@ -10,13 +10,13 @@ import Foundation
 
 public protocol MutualExclusivityCategory {
     
-    var identifier: String { get }
+    var categoryIdentifier: String { get }
     
 }
 
 extension MutualExclusivityCategory where Self: RawRepresentable, Self.RawValue == String {
     
-    public var identifier: String {
+    public var categoryIdentifier: String {
         return "\(Self.self):\(rawValue)"
     }
     
