@@ -33,7 +33,7 @@ public protocol OperationObserver {
 
 extension OperationObserver {
     
-    func operationDidEnqueue(operation: Operation) {
+    public func operationDidEnqueue(operation: Operation) {
         // Placeholder implementation not to break things. Will be removed (possibly) in 0.4
     }
     
