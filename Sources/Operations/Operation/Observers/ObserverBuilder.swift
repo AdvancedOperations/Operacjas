@@ -15,6 +15,7 @@ public final class ObserverBuilder {
     private var finishHandler: (([ErrorType]) -> Void)?
     private var successHandler: ((Void) -> Void)?
     private var errorHandler: (([ErrorType]) -> Void)?
+    private var enqueuingHandler: (() -> ())?
     
 }
 
@@ -49,6 +50,10 @@ private struct ObserverBuilderObserver: OperationObserver {
     
     init(builder: ObserverBuilder) {
         self.builder = builder
+    }
+    
+    private func operationDidEnqueue(operation: Operation) {
+        builder.enqueuingHandler?()
     }
     
     private func operationDidStart(operation: Operation) {

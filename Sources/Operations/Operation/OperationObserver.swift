@@ -14,6 +14,9 @@ import Foundation
 */
 public protocol OperationObserver {
     
+    /// Invoked immediately after operation is added to the queue
+    func operationDidEnqueue(operation: Operation)
+    
     /// Invoked immediately prior to the `Operation`'s `execute()` method.
     func operationDidStart(operation: Operation)
     
