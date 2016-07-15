@@ -42,7 +42,6 @@ public class OperationQueue: NSOperationQueue {
     public weak var delegate: OperationQueueDelegate?
     
     public override func addOperation(operation: NSOperation) {
-        var didEnqueueNotifier: (() -> ())? = nil
         dependOnVitals(operation)
         if let operation = operation as? Operation {
             
@@ -100,9 +99,6 @@ public class OperationQueue: NSOperationQueue {
                 if appropriate.
             */
             operation._willEnqueue()
-            didEnqueueNotifier = {
-                operation._didEnqueue()
-            }
         }
         else {
             /*
@@ -119,7 +115,6 @@ public class OperationQueue: NSOperationQueue {
         
         delegate?.operationQueue(self, willAddOperation: operation)
         super.addOperation(operation)
-        didEnqueueNotifier?()
     }
     
     public override func addOperations(operations: [NSOperation], waitUntilFinished wait: Bool) {

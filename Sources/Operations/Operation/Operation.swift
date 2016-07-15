@@ -82,17 +82,6 @@ public class Operation: NSOperation {
         }
     }
     
-    internal func _didEnqueue() {
-        observers.forEach { (observer) in
-            observer.operationDidEnqueue(self)
-        }
-        didEnqueue()
-    }
-    
-    public func didEnqueue() {
-        // For subclasses
-    }
-    
     internal func _willEnqueue() {
         state = .Pending
         willEnqueue()

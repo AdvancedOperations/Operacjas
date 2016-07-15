@@ -10,30 +10,24 @@ import Foundation
 
 /**
     The `BlockObserver` is a way to attach arbitrary blocks to significant events
-    in an `Operation`'s lifecycle. Deprecated.
+    in an `Operation`'s lifecycle.
  
     - Note: Use `BlockObserver` only as a reusable object. For individual observing, use `operation.observe` instead.
 */
 public struct BlockObserver: OperationObserver {
     // MARK: Properties
     
-    private let enqueuingHandler: ((Operation) -> Void)?
-    private let startHandler: ((Operation) -> Void)?
+    private let startHandler: (Operation -> Void)?
     private let produceHandler: ((Operation, NSOperation) -> Void)?
     private let finishHandler: ((Operation, [ErrorType]) -> Void)?
     
-    public init(enqueuingHandler: ((Operation) -> Void)? = nil, startHandler: (Operation -> Void)? = nil, produceHandler: ((Operation, NSOperation) -> Void)? = nil, finishHandler: ((Operation, [ErrorType]) -> Void)? = nil) {
-        self.enqueuingHandler = enqueuingHandler
+    public init(startHandler: (Operation -> Void)? = nil, produceHandler: ((Operation, NSOperation) -> Void)? = nil, finishHandler: ((Operation, [ErrorType]) -> Void)? = nil) {
         self.startHandler = startHandler
         self.produceHandler = produceHandler
         self.finishHandler = finishHandler
     }
     
     // MARK: OperationObserver
-    
-    public func operationDidEnqueue(operation: Operation) {
-        enqueuingHandler?(operation)
-    }
     
     public func operationDidStart(operation: Operation) {
         startHandler?(operation)

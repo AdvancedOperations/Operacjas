@@ -15,34 +15,29 @@ public final class ObserverBuilder {
     private var finishHandler: (([ErrorType]) -> Void)?
     private var successHandler: ((Void) -> Void)?
     private var errorHandler: (([ErrorType]) -> Void)?
-    private var enqueuingHandler: (() -> ())?
     
 }
 
 extension ObserverBuilder {
     
-    public func didEnqueue(handler: () -> ()) {
-        self.enqueuingHandler = handler
-    }
-    
-    public func didStart(handler: () -> ()) {
+    public func didStart(handler: (Void) -> Void) {
         self.startHandler = handler
     }
     
-    public func didProduceAnotherOperation(handler: (produced: NSOperation) -> ()) {
+    public func didProduceAnotherOperation(handler: (produced: NSOperation) -> Void) {
         self.produceHandler = handler
     }
     
     // WARNING! Usage of this method will ignore didSuccess and didFailed calls. Use them instead in most cases.
-    public func didFinishWithErrors(handler: (errors: [ErrorType]) -> ()) {
+    public func didFinishWithErrors(handler: (errors: [ErrorType]) -> Void) {
         self.finishHandler = handler
     }
     
-    public func didSuccess(handler: () -> ()) {
+    public func didSuccess(handler: (Void) -> Void) {
         self.successHandler = handler
     }
     
-    public func didFail(handler: (errors: [ErrorType]) -> ()) {
+    public func didFail(handler: (errors: [ErrorType]) -> Void) {
         self.errorHandler = handler
     }
         
@@ -54,10 +49,6 @@ private struct ObserverBuilderObserver: OperationObserver {
     
     init(builder: ObserverBuilder) {
         self.builder = builder
-    }
-    
-    private func operationDidEnqueue(operation: Operation) {
-        builder.enqueuingHandler?()
     }
     
     private func operationDidStart(operation: Operation) {
@@ -83,7 +74,7 @@ private struct ObserverBuilderObserver: OperationObserver {
 
 extension Operation {
     
-    public func observe(build: (operation: ObserverBuilder) -> ()) {
+    public func observe(build: (operation: ObserverBuilder) -> Void) {
         let builder = ObserverBuilder()
         build(operation: builder)
         let observer = ObserverBuilderObserver(builder: builder)
