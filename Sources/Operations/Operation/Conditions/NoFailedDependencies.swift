@@ -10,8 +10,6 @@ import Foundation
 
 public struct NoFailedDependencies: OperationCondition {
     
-    public static var isMutuallyExclusive: Bool = false
-    
     public enum Error: ErrorType {
         case DependenciesFailed(failed: [(Operation, [ErrorType])])
     }
@@ -41,8 +39,6 @@ public struct NoFailedDependencies: OperationCondition {
 }
 
 internal struct NoFailedDependency: OperationCondition {
-    
-    internal static var isMutuallyExclusive: Bool = false
     
     internal enum Error: ErrorType {
         case DependencyFailed(failed: (Operation, [ErrorType]))
