@@ -55,6 +55,10 @@
 		BE6CFCBF1D2AA9C50064041E /* QueueModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CFCBE1D2AA9C50064041E /* QueueModuleTests.swift */; };
 		BE6CFCC01D2AA9C50064041E /* QueueModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CFCBE1D2AA9C50064041E /* QueueModuleTests.swift */; };
 		BE6CFCC11D2AA9C50064041E /* QueueModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6CFCBE1D2AA9C50064041E /* QueueModuleTests.swift */; };
+		BE889E511D38C7CF003567AE /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE889E501D38C7CE003567AE /* NoFailedDependencies.swift */; };
+		BE889E521D38C7DA003567AE /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE889E501D38C7CE003567AE /* NoFailedDependencies.swift */; };
+		BE889E531D38C7DB003567AE /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE889E501D38C7CE003567AE /* NoFailedDependencies.swift */; };
+		BE889E541D38C7DC003567AE /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE889E501D38C7CE003567AE /* NoFailedDependencies.swift */; };
 		BEFD74CF1CD630BA0066A71B /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFD74CE1CD630BA0066A71B /* ExclusivityController.swift */; };
 		BEFD74D01CD630BA0066A71B /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFD74CE1CD630BA0066A71B /* ExclusivityController.swift */; };
 		BEFD74D11CD630BA0066A71B /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFD74CE1CD630BA0066A71B /* ExclusivityController.swift */; };
@@ -131,6 +135,7 @@
 		BE6B10981CF0E66200616E32 /* MutuallyExclusive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutuallyExclusive.swift; sourceTree = "<group>"; };
 		BE6B109D1CF0E75F00616E32 /* NoCancelledDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCancelledDependencies.swift; sourceTree = "<group>"; };
 		BE6CFCBE1D2AA9C50064041E /* QueueModuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueModuleTests.swift; sourceTree = "<group>"; };
+		BE889E501D38C7CE003567AE /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
 		BEFD74CE1CD630BA0066A71B /* ExclusivityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExclusivityController.swift; sourceTree = "<group>"; };
 		BEFD74D31CD630CD0066A71B /* OperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationQueue.swift; sourceTree = "<group>"; };
 		BEFD74D81CD633010066A71B /* BlockObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockObserver.swift; sourceTree = "<group>"; };
@@ -297,6 +302,7 @@
 				BE6B10981CF0E66200616E32 /* MutuallyExclusive.swift */,
 				BEFD74E41CD639000066A71B /* SilentCondition.swift */,
 				BE6B109D1CF0E75F00616E32 /* NoCancelledDependencies.swift */,
+				BE889E501D38C7CE003567AE /* NoFailedDependencies.swift */,
 			);
 			path = Conditions;
 			sourceTree = "<group>";
@@ -606,6 +612,7 @@
 				BEFD74E51CD639000066A71B /* SilentCondition.swift in Sources */,
 				BE17C4A91CD3CF0700708FC5 /* OperationObserver.swift in Sources */,
 				BE17C4B31CD3CF4200708FC5 /* OperationErrors.swift in Sources */,
+				BE889E511D38C7CF003567AE /* NoFailedDependencies.swift in Sources */,
 				BE17C4AE1CD3CF2300708FC5 /* NSLock+Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -638,6 +645,7 @@
 				BEFD74E61CD639000066A71B /* SilentCondition.swift in Sources */,
 				BE17C4AA1CD3CF0700708FC5 /* OperationObserver.swift in Sources */,
 				BE17C4B41CD3CF4200708FC5 /* OperationErrors.swift in Sources */,
+				BE889E521D38C7DA003567AE /* NoFailedDependencies.swift in Sources */,
 				BE17C4AF1CD3CF2300708FC5 /* NSLock+Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,6 +678,7 @@
 				BEFD74E71CD639000066A71B /* SilentCondition.swift in Sources */,
 				BE17C4AB1CD3CF0700708FC5 /* OperationObserver.swift in Sources */,
 				BE17C4B51CD3CF4200708FC5 /* OperationErrors.swift in Sources */,
+				BE889E531D38C7DB003567AE /* NoFailedDependencies.swift in Sources */,
 				BE17C4B01CD3CF2300708FC5 /* NSLock+Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,6 +701,7 @@
 				BEFD74E81CD639000066A71B /* SilentCondition.swift in Sources */,
 				BE17C4AC1CD3CF0700708FC5 /* OperationObserver.swift in Sources */,
 				BE17C4B61CD3CF4200708FC5 /* OperationErrors.swift in Sources */,
+				BE889E541D38C7DC003567AE /* NoFailedDependencies.swift in Sources */,
 				BE17C4B11CD3CF2300708FC5 /* NSLock+Operations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
