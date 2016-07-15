@@ -47,7 +47,7 @@ extension OperationCondition {
     An enum to indicate whether an `OperationCondition` was satisfied, or if it
     failed with an error.
 */
-public enum OperationConditionResult: Equatable {
+public enum OperationConditionResult {
     case Satisfied
     case Failed(with: ErrorType)
     
@@ -56,17 +56,6 @@ public enum OperationConditionResult: Equatable {
             return error
         }
         return nil
-    }
-}
-
-public func ==(lhs: OperationConditionResult, rhs: OperationConditionResult) -> Bool {
-    switch (lhs, rhs) {
-        case (.Satisfied, .Satisfied):
-            return true
-        case (.Failed(let lError as NSError), .Failed(let rError as NSError)) where lError == rError:
-            return true
-        default:
-            return false
     }
 }
 
