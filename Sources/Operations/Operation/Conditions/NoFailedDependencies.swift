@@ -11,7 +11,7 @@ import Foundation
 public struct NoFailedDependencies: OperationCondition {
     
     public enum Error: ErrorType {
-        case DependenciesFailed(failed: [(Operation, [ErrorType])])
+        case DependenciesFailed([(Operation, [ErrorType])])
     }
     
     public init() { }
@@ -21,16 +21,16 @@ public struct NoFailedDependencies: OperationCondition {
     }
     
     public func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
-        let opers = operation.dependencies.flatMap({ $0 as? Operation })
-        let failed = opers.filter {
+        let operations = operation.dependencies.flatMap({ $0 as? Operation })
+        let failedOperations = operations.filter({
             if let errors = $0.errors {
                 return !errors.isEmpty
             }
             return false
-        }
-        if !failed.isEmpty {
-            let elements = failed.map({ return ($0, $0.errors!) })
-            completion(.Failed(error: Error.DependenciesFailed(failed: elements)))
+        })
+        if !failedOperations.isEmpty {
+            let operationsAndErrors = failedOperations.map({ return ($0, $0.errors!) })
+            completion(.Failed(with: Error.DependenciesFailed(operationsAndErrors)))
         } else {
             completion(.Satisfied)
         }
@@ -41,7 +41,7 @@ public struct NoFailedDependencies: OperationCondition {
 internal struct NoFailedDependency: OperationCondition {
     
     internal enum Error: ErrorType {
-        case DependencyFailed(failed: (Operation, [ErrorType]))
+        case DependencyFailed((Operation, [ErrorType]))
         case DependencyErrorsNil
     }
     
@@ -57,11 +57,11 @@ internal struct NoFailedDependency: OperationCondition {
     
     func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
         guard let errors = dependency.errors else {
-            completion(.Failed(error: Error.DependencyErrorsNil))
+            completion(.Failed(with: Error.DependencyErrorsNil))
             return
         }
         if !errors.isEmpty {
-            completion(.Failed(error: Error.DependencyFailed(failed: (dependency, errors))))
+            completion(.Failed(with: Error.DependencyFailed((operation, errors))))
         } else {
             completion(.Satisfied)
         }

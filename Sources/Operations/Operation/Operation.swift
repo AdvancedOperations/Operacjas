@@ -196,7 +196,7 @@ public class Operation: NSOperation {
     /// Sets an operation as being mutually exclusive in `category`.
     ///
     /// - Warning: This method needs to be called before enqueuing.
-    public func setMutuallyExclusive(inCategory category: MutualExclusivityCategory) {
+    public final func setMutuallyExclusive(inCategory category: MutualExclusivityCategory) {
         assert(state < .EvaluatingConditions, "Cannot modify conditions after execution has begun.")
         exclusivityCategories.append(category)
     }
@@ -312,7 +312,7 @@ public class Operation: NSOperation {
     // MARK: Finishing
     
     /**
-     Most operations may finish with a single error, if they have one at all.
+     This method is deprecated and probably will be removed in 0.5. Most operations may finish with a single error, if they have one at all.
      This is a convenience method to simplify calling the actual `finish()`
      method. This is also useful if you wish to finish with an error provided
      by the system frameworks. As an example, see `DownloadEarthquakesOperation`
@@ -321,7 +321,7 @@ public class Operation: NSOperation {
      */
     public final func finishWithError(error: ErrorType?) {
         if let error = error {
-            finish([error])
+            finish(with: [error])
         }
         else {
             finish()
@@ -338,7 +338,7 @@ public class Operation: NSOperation {
     /// Puts `self` in `finished` state.
     ///
     /// - Parameter errors: Reported errors
-    public final func finish(errors: [ErrorType] = []) {
+    public final func finish(with errors: [ErrorType] = []) {
         if !hasFinishedAlready {
             hasFinishedAlready = true
             state = .Finishing
