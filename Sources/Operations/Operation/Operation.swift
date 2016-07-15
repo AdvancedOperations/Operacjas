@@ -82,12 +82,17 @@ public class Operation: NSOperation {
         }
     }
     
+    internal func _willEnqueue() {
+        state = .Pending
+        willEnqueue()
+    }
+    
     /**
      Indicates that the Operation can now begin to evaluate readiness conditions,
      if appropriate.
      */
     public func willEnqueue() {
-        state = .Pending
+        
     }
     
     /// Private storage for the `state` property that will be KVO observed.
@@ -182,6 +187,13 @@ public class Operation: NSOperation {
             self._internalErrors.appendContentsOf(failures)
             self.state = .Ready
         }
+    }
+    
+    internal var exclusivityCategories: [MutualExclusivityCategory] = []
+    
+    public func setMutuallyExclusive(inCategory category: MutualExclusivityCategory) {
+        assert(state < .EvaluatingConditions, "Cannot modify conditions after execution has begun.")
+        exclusivityCategories.append(category)
     }
     
     // MARK: Observers and Conditions

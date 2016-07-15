@@ -123,6 +123,33 @@ class OperationsTests: XCTestCase {
         queue.addOperation(noFail1)
         queue.addOperation(noFailMain)
         
+    func testMutually() {
+        enum Category: String, MutualExclusivityCategory {
+            case A
+            case B
+        }
+        
+        let operationA = BlockOperation {
+            print("First")
+        }
+        operationA.setMutuallyExclusive(inCategory: Category.A)
+        
+        let expectation = expectationWithDescription("Waiting for second operation")
+        let operationB = BlockOperation {
+            print("Second")
+            expectation.fulfill()
+        }
+        operationB.setMutuallyExclusive(inCategory: Category.A)
+        operationB.observe { operation in
+            operation.didStart {
+                if !operationA.finished {
+                    XCTFail()
+                }
+                print(operationA.finished)
+            }
+        }
+        queue.addOperation(operationA)
+        queue.addOperation(operationB)
         waitForExpectationsWithTimeout(5.0, handler: nil)
     }
     
