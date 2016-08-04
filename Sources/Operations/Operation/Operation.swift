@@ -238,6 +238,19 @@ public class Operation: NSOperation {
         public static let ExpectSuccess = DependencyOptions(rawValue: 1 << 0)
     }
     
+    public final func addDependency<FallibleOperation: Operation where FallibleOperation: Fallible>(operation: FallibleOperation, resolveError: (DependencyError<FallibleOperation.Error>) -> ErrorResolvingDisposition) {
+        operation.addObserver(ErrorResolverObserver(resolve: resolveError, dependee: self))
+        addDependency(operation)
+    }
+    
+    public final func addDependency<FallibleOperation, Resolver
+        where FallibleOperation: Operation,
+        FallibleOperation: Fallible,
+        Resolver: OperationErrorResolver,
+        Resolver.Error == FallibleOperation.Error>(operation: FallibleOperation, errorResolver: Resolver) {
+        addDependency(operation, resolveError: errorResolver.resolve)
+    }
+    
     /// Makes the receiver dependent on the completion of the specified operation.
     ///
     /// - Parameter expectSuccess: If `true`, `self` operation will fail if `operation` fails.
@@ -380,4 +393,40 @@ public func <(lhs: Operation.State, rhs: Operation.State) -> Bool {
 
 public func ==(lhs: Operation.State, rhs: Operation.State) -> Bool {
     return lhs.rawValue == rhs.rawValue
+}
+
+internal struct ErrorResolverObserver<Error: ErrorType>: OperationObserver {
+    
+    let resolve: (DependencyError<Error>) -> ErrorResolvingDisposition
+    weak var dependee: Operation?
+    
+    func operationDidStart(operation: Operation) { }
+    
+    func operation(operation: Operation, didProduceOperation newOperation: NSOperation) { }
+    
+    func operationDidFinish(operation: Operation, errors: [ErrorType]) {
+        var disposedErrors: [ErrorType] = []
+        for error in errors {
+            var disposition: ErrorResolvingDisposition
+            if let error = error as? Error {
+                disposition = resolve(.Native(error))
+            } else {
+                disposition = resolve(.Foreign(error))
+            }
+            switch disposition {
+            case .Execute:
+                continue
+            case .FailWithSame:
+                disposedErrors.append(error)
+            case let .Fail(with: customError):
+                disposedErrors.append(customError)
+            case let .Produce(newOperation):
+                operation.produceOperation(newOperation)
+            }
+        }
+        if !disposedErrors.isEmpty {
+            dependee?._internalErrors.appendContentsOf(disposedErrors)
+        }
+    }
+    
 }
