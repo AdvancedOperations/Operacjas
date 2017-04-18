@@ -85,6 +85,16 @@ open class Operacja : Operation {
         }
     }
     
+    public override init() {
+        super.init()
+        configure()
+    }
+    
+    /// The good place to setup observers, conditions and mutual exclusivity categories.
+    public func configure() {
+        // For use by subclassers.
+    }
+    
     internal func _willEnqueue() {
         state = .pending
         willEnqueue()
